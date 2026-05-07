@@ -1,3 +1,4 @@
+const pool = require("./db");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -17,16 +18,51 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-app.post("/submit-lost", (req, res) => {
-  console.log("Lost item submitted:");
-  console.log(req.body);
+app.post("/submit-lost", async (req, res) => {
+  try {
+    const {
+      user_id,
+      item_name,
+      description,
+      category,
+      color,
+      date_lost,
+      location_id,
+      contact_info
+    } = req.body;
 
-  res.send(`
-    <h1>Lost Item Report Submitted</h1>
-    <p>Your lost item report was received successfully.</p>
-    <a href="/submit-lost.html">Submit Another Report</a><br>
-    <a href="/dashboard.html">Go to Dashboard</a>
-  `);
+    await pool.query(
+      `INSERT INTO lost_reports 
+      (user_id, item_name, description, category, color, date_lost, location_id, contact_info, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        user_id,
+        item_name,
+        description,
+        category,
+        color,
+        date_lost,
+        location_id,
+        contact_info,
+        "Open"
+      ]
+    );
+
+    res.send(`
+      <h1>Lost Item Report Saved</h1>
+      <p>Your lost item report was saved into the database successfully.</p>
+      <a href="/submit-lost.html">Submit Another Report</a><br>
+      <a href="/dashboard.html">Go to Dashboard</a>
+    `);
+  } catch (error) {
+    console.error(error);
+    res.send(`
+      <h1>Error Saving Report</h1>
+      <p>Something went wrong while saving the report.</p>
+      <pre>${error.message}</pre>
+      <a href="/submit-lost.html">Try Again</a>
+    `);
+  }
 });
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
