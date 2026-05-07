@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit Lost Item</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav>
+    <h2>UMBC Lost & Found</h2>
+    <a href="index.html">Home</a>
+    <a href="submit-lost.html">Submit Lost Item</a>
+    <a href="found-items.html">Log Found Item</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="claims.html">Claim Verification</a>
+  </nav>
+
+  <main class="container">
+    <h1>Submit Lost Item Report</h1>
+
+    <form class="form-box" action="/submit-lost" method="POST">
+      <label>Student/User ID</label>
+      <input type="number" name="user_id" placeholder="Example: 1" required />
+
+      <label>Item Name</label>
+      <input type="text" name="item_name" placeholder="Example: Black Backpack" required />
+
+      <label>Description</label>
+      <textarea name="description" placeholder="Describe the item..." required></textarea>
+
+      <label>Category</label>
+      <select name="category" required>
+        <option value="">Select category</option>
+        <option>Electronics</option>
+        <option>Clothing</option>
+        <option>School Supplies</option>
+        <option>ID/Card</option>
+        <option>Water Bottle</option>
+        <option>Other</option>
+      </select>
+
+      <label>Color</label>
+      <input type="text" name="color" placeholder="Example: Black" />
+
+      <label>Date Lost</label>
+      <input type="date" name="date_lost" required />
+
+      <label>Location ID</label>
+      <input type="number" name="location_id" placeholder="Example: 1" required />
+
+      <label>Contact Info</label>
+      <input type="email" name="contact_info" placeholder="student@umbc.edu" required />
+
+      <button type="submit">Submit Report</button>
+    </form>
+  </main>
+</body>
+</html>
