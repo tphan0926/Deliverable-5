@@ -35,6 +35,24 @@
       </thead>
       <tbody id="reportsTable"></tbody>
     </table>
+<h1>Found Items Dashboard</h1>
+<p>This report displays found item records stored in the database.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Logged By</th>
+      <th>Item</th>
+      <th>Category</th>
+      <th>Color</th>
+      <th>Date Found</th>
+      <th>Location ID</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="foundItemsTable"></tbody>
+</table>    
   </main>
 
   <script>
@@ -64,6 +82,32 @@
     }
 
     loadReports();
+ async function loadFoundItems() {
+  const response = await fetch("/api/found-items");
+  const items = await response.json();
+
+  const table = document.getElementById("foundItemsTable");
+  table.innerHTML = "";
+
+  items.forEach(item => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${item.found_item_id}</td>
+      <td>${item.logged_by_user_id}</td>
+      <td>${item.item_name}</td>
+      <td>${item.category}</td>
+      <td>${item.color || ""}</td>
+      <td>${item.date_found ? item.date_found.substring(0, 10) : ""}</td>
+      <td>${item.location_id}</td>
+      <td>${item.status}</td>
+    `;
+
+    table.appendChild(row);
+  });
+}
+
+loadFoundItems(); 
   </script>
 </body>
 </html>

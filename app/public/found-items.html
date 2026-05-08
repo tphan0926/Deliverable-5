@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Found Item</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav>
+    <h2>UMBC Lost & Found</h2>
+    <a href="index.html">Home</a>
+    <a href="submit-lost.html">Submit Lost Item</a>
+    <a href="found-items.html">Log Found Item</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="claims.html">Claim Verification</a>
+  </nav>
+
+  <main class="container">
+    <h1>Log Found Item</h1>
+
+    <form class="form-box" action="/submit-found" method="POST">
+      <label>Logged By User ID</label>
+      <input type="number" name="logged_by_user_id" placeholder="Example: 2" required />
+
+      <label>Item Name</label>
+      <input type="text" name="item_name" placeholder="Example: Blue Water Bottle" required />
+
+      <label>Description</label>
+      <textarea name="description" placeholder="Describe the found item..." required></textarea>
+
+      <label>Category</label>
+      <select name="category" required>
+        <option value="">Select category</option>
+        <option>Electronics</option>
+        <option>Clothing</option>
+        <option>School Supplies</option>
+        <option>ID/Card</option>
+        <option>Water Bottle</option>
+        <option>Other</option>
+      </select>
+
+      <label>Color</label>
+      <input type="text" name="color" placeholder="Example: Blue" />
+
+      <label>Date Found</label>
+      <input type="date" name="date_found" required />
+
+      <label>Location ID</label>
+      <input type="number" name="location_id" placeholder="Example: 1" required />
+
+      <label>High Value Item?</label>
+      <select name="high_value_flag" required>
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+      </select>
+
+      <label>Retention Days</label>
+      <input type="number" name="retention_days" value="30" required />
+
+      <button type="submit">Log Found Item</button>
+    </form>
+  </main>
+</body>
+</html>

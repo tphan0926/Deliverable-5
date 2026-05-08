@@ -64,6 +64,50 @@ app.post("/submit-lost", async (req, res) => {
     `);
   }
 });
+app.post("/submit-found", async (req, res) => {
+  try {
+    const {
+      logged_by_user_id,
+      item_name,
+      description,
+      category,
+      color,
+      date_found,
+      location_id
+    } = req.body;
+
+    await pool.query(
+      `INSERT INTO found_items
+      (logged_by_user_id, item_name, description, category, color, date_found, location_id, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        logged_by_user_id,
+        item_name,
+        description,
+        category,
+        color,
+        date_found,
+        location_id,
+        "Available"
+      ]
+    );
+
+    res.send(`
+      <h1>Found Item Saved</h1>
+      <p>The found item was saved into the database successfully.</p>
+      <a href="/found-items.html">Log Another Found Item</a><br>
+      <a href="/dashboard.html">Go to Dashboard</a>
+    `);
+  } catch (error) {
+    console.error(error);
+    res.send(`
+      <h1>Error Saving Found Item</h1>
+      <p>Something went wrong while saving the found item.</p>
+      <pre>${error.message}</pre>
+      <a href="/found-items.html">Try Again</a>
+    `);
+  }
+});
 app.get("/api/lost-reports", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -87,6 +131,30 @@ app.get("/api/lost-reports", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch lost reports" });
+  }
+});
+app.get("/api/found-items", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        found_item_id,
+        logged_by_user_id,
+        item_name,
+        description,
+        category,
+        color,
+        date_found,
+        location_id,
+        status,
+        created_at
+      FROM found_items
+      ORDER BY found_item_id DESC
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch found items" });
   }
 });
 app.listen(PORT, () => {
