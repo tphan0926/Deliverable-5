@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claim Verification</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav>
+    <h2>UMBC Lost & Found</h2>
+    <a href="index.html">Home</a>
+    <a href="submit-lost.html">Submit Lost Item</a>
+    <a href="found-items.html">Log Found Item</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="claims.html">Claim Verification</a>
+  </nav>
+
+  <main class="container">
+    <h1>Claim Verification</h1>
+    <p>This prototype screen allows staff to verify ownership before releasing a found item.</p>
+
+    <form class="form-box">
+      <label>Match ID</label>
+      <input type="number" placeholder="Example: 1" />
+
+      <label>Claimed By User ID</label>
+      <input type="number" placeholder="Example: 1" />
+
+      <label>Verified By Staff User ID</label>
+      <input type="number" placeholder="Example: 1" />
+
+      <label>Proof of Ownership Notes</label>
+      <textarea placeholder="Example: Student described stickers on laptop and showed UMBC ID."></textarea>
+
+      <label>Claim Status</label>
+      <select>
+        <option>Pending Review</option>
+        <option>Approved</option>
+        <option>Denied</option>
+      </select>
+
+     <button type="button" onclick="showMessage()">Verify Claim</button>
+
+<p id="claimMessage" style="font-weight: bold; margin-top: 15px;"></p>
+
+<script>
+  function showMessage() {
+    document.getElementById("claimMessage").textContent =
+      "Claim verification prototype submitted. In the full system, this would save claim verification data to the database.";
+  }
+</script>
+    </form>
+  </main>
+</body>
+</html>
