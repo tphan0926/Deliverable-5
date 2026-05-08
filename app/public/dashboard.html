@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost Reports Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav>
+    <h2>UMBC Lost & Found</h2>
+    <a href="index.html">Home</a>
+    <a href="submit-lost.html">Submit Lost Item</a>
+    <a href="found-items.html">Log Found Item</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="claims.html">Claim Verification</a>
+  </nav>
+
+  <main class="container">
+    <h1>Lost Reports Dashboard</h1>
+    <p>This report displays lost item records stored in the database.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Item</th>
+          <th>Category</th>
+          <th>Color</th>
+          <th>Date Lost</th>
+          <th>Location ID</th>
+          <th>Status</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody id="reportsTable"></tbody>
+    </table>
+  </main>
+
+  <script>
+    async function loadReports() {
+      const response = await fetch("/api/lost-reports");
+      const reports = await response.json();
+
+      const table = document.getElementById("reportsTable");
+      table.innerHTML = "";
+
+      reports.forEach(report => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${report.lost_report_id}</td>
+          <td>${report.item_name}</td>
+          <td>${report.category}</td>
+          <td>${report.color || ""}</td>
+          <td>${report.date_lost ? report.date_lost.substring(0, 10) : ""}</td>
+          <td>${report.location_id}</td>
+          <td>${report.status}</td>
+          <td>${report.contact_info}</td>
+        `;
+
+        table.appendChild(row);
+      });
+    }
+
+    loadReports();
+  </script>
+</body>
+</html>

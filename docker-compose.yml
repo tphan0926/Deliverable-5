@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     image: postgres:15
@@ -12,6 +10,9 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./lost_found_database.sql:/docker-entrypoint-initdb.d/lost_found_database.sql
+    networks:
+      - lostfound_network
 
   app:
     build: .
@@ -20,6 +21,18 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: projectdb
+      DB_USER: student1
+      DB_PASSWORD: student123
+    networks:
+      - lostfound_network
 
 volumes:
   db_data:
+
+networks:
+  lostfound_network:
+    driver: bridge

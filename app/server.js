@@ -64,6 +64,31 @@ app.post("/submit-lost", async (req, res) => {
     `);
   }
 });
+app.get("/api/lost-reports", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        lost_report_id,
+        user_id,
+        item_name,
+        description,
+        category,
+        color,
+        date_lost,
+        location_id,
+        contact_info,
+        status,
+        created_at
+      FROM lost_reports
+      ORDER BY lost_report_id DESC
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch lost reports" });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
