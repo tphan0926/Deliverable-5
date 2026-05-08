@@ -91,7 +91,15 @@ app.post("/submit-found", async (req, res) => {
         "Available"
       ]
     );
-
+await pool.query(
+  `UPDATE lost_reports
+   SET status = 'Matched'
+   WHERE LOWER(item_name) = LOWER($1)
+   AND LOWER(category) = LOWER($2)
+   AND LOWER(color) = LOWER($3)
+   AND status = 'Open'`,
+  [item_name, category, color]
+);
     res.send(`
       <h1>Found Item Saved</h1>
       <p>The found item was saved into the database successfully.</p>
